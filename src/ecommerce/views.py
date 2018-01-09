@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from .forms import ContactForm, LoginForm
+from .forms import ContactForm, LoginForm, RegisterForm
 
 def home_page(request):
     return render(request, 'home_page.html', {'context': 'foobar'})
@@ -37,5 +37,11 @@ def login_page(request):
     return render(request, 'auth/login.html', context)
 
 def register_page(request):
-    pass
+    form = RegisterForm(request.POST or None) 
+    context = {
+        'form': form
+    }
+    if form.is_valid():
+        print(form.cleaned_data)
+    return render(request, 'auth/register.html', context)
 
