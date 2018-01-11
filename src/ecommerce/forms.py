@@ -19,26 +19,29 @@ class ContactForm(forms.Form):
     ))
     content = forms.CharField(widget=forms.Textarea(
         attrs={
-            'class':'form-control',
+            'class': 'form-control',
             'placeholder': 'Your message',
         }
     ))
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if not 'gmail.com' in email:
+        if 'gmail.com' not in email:
             raise forms.ValidationError('Email has to be gmail.com')
         return email
+
 
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 
+
 class RegisterForm(forms.Form):
     username = forms.CharField()
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label='Confirm password', widget=forms.PasswordInput)
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -59,4 +62,3 @@ class RegisterForm(forms.Form):
         if data.get('password') != data.get('password2'):
             raise forms.ValidationError('Password must match.')
         return data
-

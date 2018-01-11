@@ -4,8 +4,10 @@ from django.shortcuts import render, redirect
 
 from .forms import ContactForm, LoginForm, RegisterForm
 
+
 def home_page(request):
     return render(request, 'home_page.html', {'context': 'foobar'})
+
 
 def contact_page(request):
     contact_form = ContactForm(request.POST or None)
@@ -17,6 +19,7 @@ def contact_page(request):
     if contact_form.is_valid():
         print(contact_form.cleaned_data)
     return render(request, 'contact/view.html', context)
+
 
 def login_page(request):
     form = LoginForm(request.POST or None)
@@ -36,9 +39,12 @@ def login_page(request):
             print('Error')
     return render(request, 'auth/login.html', context)
 
+
 User = get_user_model
+
+
 def register_page(request):
-    form = RegisterForm(request.POST or None) 
+    form = RegisterForm(request.POST or None)
     context = {
         'form': form
     }
@@ -48,4 +54,3 @@ def register_page(request):
         password = form.cleaned_data.get('password')
         new_user = User.objects.create_user(username, email, password)
     return render(request, 'auth/register.html', context)
-

@@ -21,12 +21,16 @@ from django.contrib import admin
 
 from .views import home_page, contact_page, login_page, register_page
 
+from products.views import ProductListView, ProductView
+
 urlpatterns = [
     url(r'^$', home_page),
     url(r'^login/$', login_page),
     url(r'^register/$', register_page),
     url(r'^contact/$', contact_page),
     url(r'^admin/', admin.site.urls),
+    url(r'products/$', ProductListView.as_view()),
+    url(r'products/(?P<pk>\d+)/$', ProductView.as_view())
 ]
 
 if settings.DEBUG:
