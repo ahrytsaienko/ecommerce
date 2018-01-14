@@ -21,7 +21,7 @@ from django.contrib import admin
 
 from .views import home_page, contact_page, login_page, register_page
 
-from products.views import ProductListView, ProductView, ProductFeaturedView, ProductFeaturedListView
+from products.views import ProductListView, ProductView, ProductFeaturedView, ProductFeaturedListView, ProductSlugView
 
 urlpatterns = [
     url(r'^$', home_page),
@@ -30,7 +30,8 @@ urlpatterns = [
     url(r'^contact/$', contact_page),
     url(r'^admin/', admin.site.urls),
     url(r'products/$', ProductListView.as_view()),
-    url(r'products/(?P<pk>\d+)/$', ProductView.as_view()),
+    # url(r'products/(?P<pk>\d+)/$', ProductView.as_view()),
+    url(r'products/(?P<slug>[\w-]+)/$', ProductSlugView.as_view()),
     url(r'featured/$', ProductFeaturedListView.as_view()),
     url(r'featured/(?P<pk>\d+)/$', ProductFeaturedView.as_view()),
 ]
