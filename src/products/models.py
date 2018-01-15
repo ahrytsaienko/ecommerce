@@ -3,6 +3,7 @@ import os
 
 from django.db import models
 from django.db.models.signals import pre_save
+from django.urls import reverse
 
 from .utils import unique_slug_generator
 
@@ -15,7 +16,7 @@ def get_filename_ext(filepath):
 
 def upload_image_path(instance, filename):
     new_filename = random.randint(1, 39104124214124)
-    namem, ext = get_filename_ext(filename)
+    name, ext = get_filename_ext(filename)
     final_filename = '{new_filename}{ext}'.format(
         new_filename=new_filename,
         ext=ext
@@ -51,7 +52,6 @@ class ProductManager(models.Manager):
 
 
 class Product(models.Model):
-
     objects = ProductManager()
 
     title = models.CharField(max_length=120)
@@ -67,7 +67,8 @@ class Product(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return '/products/{slug}/'.format(slug=self.slug)
+        # return '/products/{slug}/'.format(slug=self.slug)
+        return reverse('products:detail', kwargs={'slug': self.slug})
 
 
 def product_pre_save_receiver(sender, instance, *args, **kwargs):
